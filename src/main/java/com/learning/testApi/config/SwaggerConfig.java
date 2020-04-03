@@ -1,7 +1,5 @@
 package com.learning.testApi.config;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
