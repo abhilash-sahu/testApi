@@ -36,37 +36,35 @@ public class EmployeeController {
 		return new ResponseEntity<List<Employee>>(employeeList, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/getEmployee/{id}")
+	@GetMapping("/getEmployee/{id}")
 	public ResponseEntity<Employee> getEmployee(@PathVariable(value = "id") int id) {
 		Employee employee = employeeService.findEmployeeById(id);
 		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
 	}
 
 	@PostMapping("/saveEmployee")
-	public ResponseEntity<List<Employee>> saveEmployee(@RequestBody Employee employee) {
-		employeeService.saveEmployee(employee);
-		List<Employee> employeeList = employeeService.getEmployees();
-		return new ResponseEntity<List<Employee>>(employeeList, HttpStatus.OK);
+	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+		Employee createdEmployee = employeeService.saveEmployee(employee);
+		return new ResponseEntity<Employee>(createdEmployee, HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/updateEmployee/{id}")
-	public ResponseEntity<List<Employee>> updateEmployee(@PathVariable(value = "id") int id, @RequestBody Employee employee) {
+	@PutMapping("/updateEmployee/{id}")
+	public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") int id, @RequestBody Employee employee) {
 		employeeService.findEmployeeById(id);
 		employee.setId(id);
-		employeeService.saveEmployee(employee);
-		List<Employee> employeeList = employeeService.getEmployees();
-		return new ResponseEntity<List<Employee>>(employeeList, HttpStatus.OK);
+		Employee updatedEmployee =  employeeService.saveEmployee(employee);
+		return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/deleteEmployee/{id}")
+	@GetMapping("/deleteEmployee/{id}")
 	public ResponseEntity<List<Employee>> deleteEmployee(@PathVariable(value = "id") int id) {
 		employeeService.findEmployeeById(id);
 		List<Employee> employeeList = employeeService.getEmployees();
 		return new ResponseEntity<List<Employee>>(employeeList, HttpStatus.OK);
 	}
 
-	@PatchMapping(value = "/patchEmployee/{id}")
-	public ResponseEntity<List<Employee>> patchEmployee(@PathVariable(value = "id") int id, 
+	@PatchMapping("/patchEmployee/{id}")
+	public ResponseEntity<Employee> patchEmployee(@PathVariable(value = "id") int id, 
 			@RequestBody Map<String, Object> employeeMap) {
 		Employee employee = employeeService.findEmployeeById(id);
 		
@@ -76,9 +74,8 @@ public class EmployeeController {
 		        ReflectionUtils.setField(field,employee, v);
 		    });
 		
-		employeeService.saveEmployee(employee);
-		List<Employee> employeeList = employeeService.getEmployees();
-		return new ResponseEntity<List<Employee>>(employeeList, HttpStatus.OK);
+		Employee patchedEmployee = employeeService.saveEmployee(employee);
+		return new ResponseEntity<Employee>(patchedEmployee, HttpStatus.OK);
 	}
 
 }
