@@ -30,6 +30,11 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 	
+	@GetMapping(value="/author")
+	public String getAuthor() {
+		return "Panda";
+	}
+	
 	@GetMapping("/getEmployees")
 	public ResponseEntity<List<Employee>> getEmployees() {
 		List<Employee> employeeList = employeeService.getEmployees();
